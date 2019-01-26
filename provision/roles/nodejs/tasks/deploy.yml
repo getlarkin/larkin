@@ -1,15 +1,15 @@
 - name: remove old repository
-  shell: "[ $(ls -d /home/ec2-user/docker-run-core/releases/* | wc -l) -gt 3 ] && ls -d /home/ec2-user/docker-run-core/releases/* | head -1 | xargs rm -rf; true"
+  shell: "[ $(ls -d /opt/larkin/releases/* | wc -l) -gt 3 ] && ls -d /opt/larkin/releases/* | head -1 | xargs rm -rf; true"
 - name: get source code
   git:
-    repo: git@github.com:acro5piano/docker-run-core.git
-    dest: /home/ec2-user/docker-run-core/releases/{{ ansible_date_time.iso8601_basic }}
+    repo: https://github.com/getlarkin/larkin.git
+    dest: /opt/larkin/releases/{{ ansible_date_time.iso8601_basic }}
     depth: 1
     accept_hostkey: True
 - name: commands
   command: "{{ item }}"
   args:
-    chdir: /home/ec2-user/docker-run-core/releases/{{ ansible_date_time.iso8601_basic }}
+    chdir: /opt/larkin/releases/{{ ansible_date_time.iso8601_basic }}
   with_items:
     - yarn install
     - cp .env.production packages/api/.env
@@ -18,6 +18,6 @@
     # - yarn db:seed
 - name: link
   file:
-    src: /home/ec2-user/docker-run-core/releases/{{ ansible_date_time.iso8601_basic }}
-    dest: /home/ec2-user/docker-run-core/current
+    src: /opt/larkin/releases/{{ ansible_date_time.iso8601_basic }}
+    dest: /opt/larkin/current
     state: link

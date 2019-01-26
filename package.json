@@ -18,7 +18,7 @@
     "make:seed": "yarn workspace @larkin/api knex seed:make",
     "make:migration": "yarn workspace @larkin/api knex migrate:make",
     "db:init": "node tasks/init-db.js",
-    "db:cli": "pgcli postgres://postgres:postgres@127.0.0.1:29576/drc_local",
+    "db:cli": "pgcli postgres://postgres:postgres@127.0.0.1:29576/larkin_local",
     "db:seed": "yarn workspace @larkin/api knex seed:run",
     "db:migrate": "yarn workspace @larkin/api knex migrate:latest",
     "db:migrate:rollback": "yarn workspace @larkin/api knex migrate:rollback",
