@@ -14,21 +14,23 @@ aliases:
         echo aws_access_key_id = $AWS_ACCESS_KEY_ID >> ~/.aws/credentials
         echo aws_secret_access_key = $AWS_SECRET_ACCESS_KEY >> ~/.aws/credentials
         echo region = ap-northeast-1 >> ~/.aws/credentials
+  - &restore_cache
+      keys:
+        - v1-dependencies-{{ checksum "yarn.lock" }}
+        - v1-dependencies-
+  - &save_cache
+      paths:
+        - /home/circleci/repo/node_modules
+      key: v1-dependencies-{{ checksum "yarn.lock" }}
 
 jobs:
   test:
     <<: *defaults
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
+      - restore_cache: *restore_cache
       - run: yarn install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      - save_cache: *save_cache
       - run: *setup_awscli
       - run:
           name: check ts
@@ -39,15 +41,9 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
+      - restore_cache: *restore_cache
       - run: yarn install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      - save_cache: *save_cache
       - run: *setup_awscli
       - run:
           name: deploy
