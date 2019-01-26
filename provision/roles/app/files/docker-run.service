@@ -3,7 +3,7 @@ Description=DockerRun
 After=network.target remote-fs.target
 
 [Service]
-WorkingDirectory=/home/ec2-user/docker-run-core/current
+WorkingDirectory=/opt/larkin/current
 ExecStart=/usr/local/bin/npm run start:api
 ExecStop=/bin/true
 Restart=always
