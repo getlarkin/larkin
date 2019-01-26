@@ -67,4 +67,4 @@ dist
 db.json
 packages/api/tmp/*
 !packages/api/tmp/.gitkeep
-hosts
+hosts.ini

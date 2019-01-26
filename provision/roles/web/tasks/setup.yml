@@ -15,7 +15,7 @@
 - name: add nginx conf dir
   become: True
   file:
-    path: /opt/drc/nginx-conf.d
+    path: /opt/larkin/nginx-conf.d
     state: directory
     owner: ec2-user
 - name: enable nginx

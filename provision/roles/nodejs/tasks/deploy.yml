@@ -2,7 +2,7 @@
   shell: "[ $(ls -d /opt/larkin/releases/* | wc -l) -gt 3 ] && ls -d /opt/larkin/releases/* | head -1 | xargs rm -rf; true"
 - name: get source code
   git:
-    repo: git@github.com:acro5piano/docker-run-core.git
+    repo: https://github.com/getlarkin/larkin.git
     dest: /opt/larkin/releases/{{ ansible_date_time.iso8601_basic }}
     depth: 1
     accept_hostkey: True

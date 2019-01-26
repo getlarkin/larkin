@@ -34,7 +34,7 @@ export const createDomain = (): Promise<string> =>
                 Type: 'A',
                 AliasTarget: {
                   HostedZoneId: 'Z35SXDOTRQ7X7K',
-                  DNSName: 'dualstack.drc-production-586017450.us-east-1.elb.amazonaws.com.',
+                  DNSName: 'dualstack.larkin-production-586017450.us-east-1.elb.amazonaws.com.',
                   EvaluateTargetHealth: false,
                 },
               },
