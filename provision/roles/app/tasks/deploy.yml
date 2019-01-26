@@ -1,0 +1,6 @@
+- name: restart
+  become: true
+  systemd:
+    name: docker-run
+    state: restarted
+    enabled: True

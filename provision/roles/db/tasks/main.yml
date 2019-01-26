@@ -1,0 +1,53 @@
+- name: Enable nginx for amazon linux 2
+  command: "amazon-linux-extras enable postgresql10"
+  become: True
+- name: yum
+  become: True
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python2-pip
+    - postgresql
+    - postgresql-server
+    - postgresql-devel
+    - postgresql-contrib
+    - postgresql-docs
+- name: setup postgresql
+  become: True
+  shell: /usr/bin/postgresql-setup --initdb; true
+- name: open to the world
+  become: True
+  copy:
+    src: pg_hba.conf
+    dest: /var/lib/pgsql/data/pg_hba.conf
+    owner: postgres
+- name: enable postgresql
+  become: True
+  systemd:
+    name: postgresql
+    state: restarted
+    enabled: True
+- name: install required pip module
+  become: True
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - psycopg2
+    - psycopg2-binary
+- name: create postgresql db
+  postgresql_db:
+    name: drc_production
+    encoding: UTF-8
+    lc_collate: en_US.UTF-8
+    lc_ctype: en_US.UTF-8
+- name: create postgres user
+  become: True
+  become_user: postgres
+  postgresql_user:
+    db: drc_production
+    name: drc_admin
+    password: gvkx1mj8dzk6szct2ly89pke05zcynjxt1blp3hfjl8rvzxvddxilm7sfemr6u47fsqj2v9eyx
+    priv: "CONNECT/ALL"
+    expires: infinity
+    encrypted: yes

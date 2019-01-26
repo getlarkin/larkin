@@ -1,0 +1,16 @@
+[Unit]
+Description=DockerRun
+After=network.target remote-fs.target
+
+[Service]
+WorkingDirectory=/home/ec2-user/docker-run-core/current
+ExecStart=/usr/local/bin/npm run start:api
+ExecStop=/bin/true
+Restart=always
+Type=simple
+User=ec2-user
+Group=ec2-user
+StartLimitBurst=50
+
+[Install]
+WantedBy=multi-user.target

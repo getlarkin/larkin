@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:10-alpine
+    ports:
+      - "29576:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: drc_local
+  redis:
+    image: redis:3
+    ports:
+      - "47632:6379"

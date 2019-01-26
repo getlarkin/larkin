@@ -1,0 +1,43 @@
+{
+  "name": "larkin",
+  "version": "0.0.1",
+  "private": true,
+  "repository": "git@github.com:getlarkin/larkin",
+  "author": "gosho-kazuya <ketsume0211@gmail.com>",
+  "license": "MIT",
+  "workspaces": {
+    "packages": [
+      "./packages/*"
+    ]
+  },
+  "scripts": {
+    "dev": "npm-run-all --parallel dev:api start:registry:dev dev:frontend",
+    "dev:api": "nodemon --watch './packages/api/src/*.ts' --exec 'yarn start:api:dev' ./packages/api/src/index.ts",
+    "dev:frontend": "yarn workspace @larkin/frontend start",
+    "build:frontend": "yarn workspace @larkin/frontend build",
+    "make:seed": "yarn workspace @larkin/api knex seed:make",
+    "make:migration": "yarn workspace @larkin/api knex migrate:make",
+    "db:init": "node tasks/init-db.js",
+    "db:cli": "pgcli postgres://postgres:postgres@127.0.0.1:29576/drc_local",
+    "db:seed": "yarn workspace @larkin/api knex seed:run",
+    "db:migrate": "yarn workspace @larkin/api knex migrate:latest",
+    "db:migrate:rollback": "yarn workspace @larkin/api knex migrate:rollback",
+    "start:api:dev": "cross-env NODE_ENV=development yarn workspace @larkin/api start",
+    "start:registry:dev": "cross-env NODE_ENV=development yarn workspace @larkin/registry start",
+    "start:api": "cross-env NODE_ENV=production yarn workspace @larkin/api start",
+    "start:registry": "cross-env NODE_ENV=production yarn workspace @larkin/registry start"
+  },
+  "dependencies": {
+    "@types/node": "^10.12.18",
+    "typescript": "^3.2.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.12",
+    "cross-env": "^5.2.0",
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.9",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.15.3",
+    "ts-jest": "^23.10.5"
+  }
+}

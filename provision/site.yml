@@ -1,0 +1,14 @@
+- hosts: dbservers
+  roles:
+    - db
+- hosts: webservers
+  roles:
+    - web
+- hosts: appservers
+  roles:
+    - nodejs
+    - app
+- hosts: registryservers
+  roles:
+    - nodejs
+    - registry

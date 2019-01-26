@@ -1,0 +1,74 @@
+version: 2
+
+defaults: &defaults
+  docker:
+    - image: acro5piano/circleci-docker-image-node-10.3.0-awscli-ansible
+  working_directory: ~/repo
+
+aliases:
+  - &setup_awscli
+      name: install aws cli
+      command: |
+        mkdir ~/.aws
+        echo '[default]' >> ~/.aws/credentials
+        echo aws_access_key_id = $AWS_ACCESS_KEY_ID >> ~/.aws/credentials
+        echo aws_secret_access_key = $AWS_SECRET_ACCESS_KEY >> ~/.aws/credentials
+        echo region = ap-northeast-1 >> ~/.aws/credentials
+
+jobs:
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: *setup_awscli
+      - run:
+          name: check ts
+          command: |
+            cp .env.production ./packages/frontend/.env
+            yarn tsc
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: *setup_awscli
+      - run:
+          name: deploy
+          command: |
+            cp .env.production ./packages/frontend/.env
+            yarn build:frontend
+            sudo pip3 install ansible awscli
+            ansible-playbook provision/site.yml --tags deploy --limit appservers,registryservers
+            aws configure set preview.cloudfront true
+            aws s3 sync --acl public-read ./packages/frontend/build/ s3://larkin.sh/
+            aws cloudfront create-invalidation --distribution-id ERCZDB0NA4VCO --paths '/*'
+
+workflows:
+  version: 2
+  master_jobs:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master

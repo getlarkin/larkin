@@ -1,0 +1,12 @@
+- name: insecure repo
+  become: True
+  copy:
+    src: docker-daemon.json
+    dest: /etc/docker/daemon.json
+    mode: 0755
+- name: add to service
+  become: True
+  copy:
+    src: docker-run.service
+    dest: /etc/systemd/system/docker-run.service
+    mode: 0755

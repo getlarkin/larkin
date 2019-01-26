@@ -1,0 +1,70 @@
+- name: download epel
+  become: True
+  get_url:
+    url: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    dest: /tmp/epel.rpm
+    mode: 0666
+- name: install epel
+  become: True
+  shell: yum -y install /tmp/epel.rpm; true
+- name: Enable nginx for amazon linux 2
+  command: "amazon-linux-extras enable nginx1.12"
+  become: True
+- name: yum
+  become: True
+  yum:
+    enablerepo: epel
+    name: "{{ item }}"
+    state: present
+    update_cache: True
+  with_items:
+    - docker
+    - nginx
+    - python2-certbot-nginx
+    - httpd-tools
+
+# docker
+- name: enable docker
+  become: True
+  user:
+    name: ec2-user
+    shell: /bin/bash
+    groups: adm,wheel,systemd-journal,docker
+    append: yes
+- name: make docker registry file
+  file:
+    path: /home/ec2-user/registry
+    state: directory
+- name: run docker registry service
+  shell: docker run -d -p 5000:5000 --restart=always --name registry -v /home/ec2-user/registry:/var/lib/registry registry:2; true
+- name: enable docker
+  become: True
+  systemd:
+    name: docker
+    state: restarted
+    enabled: True
+
+# nginx
+- name: get ssl cert
+  become: True
+  command: certbot certonly --standalone -d registry.docker-run.com --email ketsume0211@gmail.com --agree-tos --keep-until-expiring --non-interactive
+- name: copy nginx conf
+  become: True
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    mode: 0755
+- name: enable nginx
+  become: True
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: True
+
+# Nodejs service
+- name: add to service
+  become: True
+  copy:
+    src: docker-run-registry.service
+    dest: /etc/systemd/system/docker-run-registry.service
+    mode: 0755

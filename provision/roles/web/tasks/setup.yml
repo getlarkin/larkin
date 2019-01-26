@@ -1,0 +1,26 @@
+- name: Enable nginx for amazon linux 2
+  command: "amazon-linux-extras enable nginx1.12"
+  become: True
+- name: yum
+  become: True
+  yum:
+    name: nginx
+    state: present
+- name: copy nginx conf
+  become: True
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    mode: 0755
+- name: add nginx conf dir
+  become: True
+  file:
+    path: /opt/drc/nginx-conf.d
+    state: directory
+    owner: ec2-user
+- name: enable nginx
+  become: True
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: True

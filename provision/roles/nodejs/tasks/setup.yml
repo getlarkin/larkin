@@ -1,0 +1,67 @@
+- name: yum
+  become: True
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+    - docker
+- name: download nodejs
+  become: True
+  get_url:
+    url: https://nodejs.org/dist/v10.15.0/node-v10.15.0-linux-x64.tar.xz
+    dest: /tmp/node.tar.xz
+    mode: 0666
+- name: file
+  become: True
+  file:
+    path: /var/lib/node
+    state: directory
+- name: Extract node into /var/lib/node
+  become: True
+  unarchive:
+    src: /tmp/node.tar.xz
+    dest: /var/lib/node
+    remote_src: yes
+- name: link
+  become: True
+  file:
+    src: /var/lib/node/node-v10.15.0-linux-x64/bin/{{ item }}
+    dest: /usr/local/bin/{{ item }}
+    state: link
+  with_items:
+    - node
+    - npm
+- name: Install "yarn" node.js package globally.
+  become: True
+  npm:
+    name: yarn
+    global: yes
+  environment:
+    PATH: $PATH:/usr/local/bin
+- name: link
+  become: True
+  file:
+    src: /var/lib/node/node-v10.15.0-linux-x64/bin/{{ item }}
+    dest: /usr/local/bin/{{ item }}
+    state: link
+  with_items:
+    - yarn
+- name: copy deploy key
+  copy:
+    src: deploy_key
+    dest: /home/ec2-user/.ssh/id_rsa
+    mode: 0600
+- name: add user to docker group
+  become: True
+  user:
+    name: ec2-user
+    shell: /bin/bash
+    groups: adm,wheel,systemd-journal,docker
+    append: yes
+- name: enable docker
+  become: True
+  systemd:
+    name: docker
+    state: restarted
+    enabled: True
