@@ -15,7 +15,6 @@ const Container = styled.div`
 
 export const DownAlert = () => (
   <Container>
-    Sorry we are degrating for heavy traffic. We launch stable version as Paas, so please subscribe
-    us!
+    Sorry we are migrating to <a href="https://larkin.sh">larkin.sh</a> to be OSS!
   </Container>
 )
