@@ -4,9 +4,23 @@ const fs = require('fs')
 const ejs = require('ejs')
 const { spawn } = require('child_process')
 
+async function clear() {
+  return new Promise(resolve => {
+    const ps = spawn('rm', ['-rf', 'provision_real'])
+    ps.on('exit', resolve)
+  })
+}
+
 async function copy() {
   return new Promise(resolve => {
     const ps = spawn('cp', ['-r', 'provision', 'provision_real'])
+    ps.on('exit', resolve)
+  })
+}
+
+async function copyEnv() {
+  return new Promise(resolve => {
+    const ps = spawn('cp', ['.env', 'provision_real/.env'])
     ps.on('exit', resolve)
   })
 }
@@ -34,7 +48,9 @@ const paths = [
 ]
 
 async function main() {
+  await clear()
   await copy()
+  await copyEnv()
   await Promise.all(paths.map(convert))
 }
 

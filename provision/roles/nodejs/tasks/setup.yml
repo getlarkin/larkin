@@ -60,3 +60,9 @@
     name: docker
     state: started
     enabled: True
+- name: add nginx conf dir
+  become: True
+  file:
+    path: /opt/larkin
+    state: directory
+    owner: ec2-user

@@ -47,7 +47,7 @@
 # nginx
 - name: get ssl cert
   become: True
-  command: certbot certonly --standalone -d registry.docker-run.com --email ketsume0211@gmail.com --agree-tos --keep-until-expiring --non-interactive
+  command: certbot certonly --standalone -d registry.larkin.sh --email ketsume0211@gmail.com --agree-tos --keep-until-expiring --non-interactive
 - name: copy nginx conf
   become: True
   copy:
@@ -66,5 +66,5 @@
   become: True
   copy:
     src: larkin-registry.service
-    dest: /etc/systemd/system/docker-run-registry.service
+    dest: /etc/systemd/system/larkin-registry.service
     mode: 0755

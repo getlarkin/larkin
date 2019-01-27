@@ -1,5 +1,5 @@
 [Unit]
-Description=DockerRunRegistry
+Description=LarkinRegistry
 After=network.target remote-fs.target
 
 [Service]

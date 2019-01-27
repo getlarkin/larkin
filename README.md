@@ -2,6 +2,8 @@
 
 Simple Docker container management, including automatic reverse proxy, private registry, host management, and more.
 
+Status: Larkin is under development project.
+
 # Running it locally
 
 **Requirements**
@@ -26,3 +28,9 @@ Note: The following features will not currently work in locally:
 - nginx proxy
 - Route53 host management
 - Docker registry server
+
+# TODO
+
+- Set env vars
+- Ansible Vault
+- Ansilbe Template
