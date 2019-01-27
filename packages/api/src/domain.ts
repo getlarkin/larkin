@@ -53,7 +53,3 @@ export const createDomain = (): Promise<string> =>
       },
     )
   })
-
-createDomain().catch(err => {
-  throw err
-})
