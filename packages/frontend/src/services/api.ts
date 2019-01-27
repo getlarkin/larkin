@@ -28,10 +28,9 @@ export const loginWithJWTToken = () => client.get('/auth/me')
 
 export const getContainers = () => client.get('/containers')
 
-// interface LaunchContainerParams {
-//   image: string
-// }
-
 export const launchContainer = (image: string) => client.post('/containers', { image })
 
 export const destroyContainer = (id: string) => client.delete(`/containers/${id}`)
+
+export const updateDomainPublicHost = (id: string, public_host: string) =>
+  client.put(`/containers/${id}/public_host`, { public_host })

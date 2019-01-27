@@ -32,16 +32,16 @@ export const onConnection = (ws: WebSocket) => {
   })
 
   ws.on('message', async (image: string) => {
-    const hostPort = await getPort()
+    const proxyPort = await getPort()
 
     dockerLog('====> STEP 1. Connecting to larkin.sh build server...')
     dockerLog('Successfully connected to larkin.sh build server. Build started.')
 
     dockerLog('====> STEP 2. Registering your domain...', true)
-    const publicHostname = await createDomain()
+    const publicHostName = await createDomain()
     const protocol = isProduction ? 'https' : 'http'
-    dockerLog(`Successfully registered domain: ${protocol}://${publicHostname}`)
-    await createNewNginxConfig(publicHostname, hostPort)
+    dockerLog(`Successfully registered domain: ${protocol}://${publicHostName}`)
+    await createNewNginxConfig({ publicHostName, proxyPort, listenPort: 8080 })
     restartNginx()
 
     dockerLog(`====> STEP 3. Pulling ${image}...`, true)
@@ -53,8 +53,8 @@ export const onConnection = (ws: WebSocket) => {
     }
 
     dockerLog('====> STEP 4. Running Docker container...', true)
-    const internal_container_id = await dockerRun(image, hostPort, handleStdIo, (ps: any) => {
-      logger.info(`docker container is running at: :${hostPort}`)
+    const internal_container_id = await dockerRun(image, proxyPort, handleStdIo, (ps: any) => {
+      logger.info(`docker container is running at: :${proxyPort}`)
       setTimeout(async () => {
         dockerLog(
           'Killing docker container due to exceeding 600 seconds limit for demo instance.',
@@ -72,9 +72,9 @@ export const onConnection = (ws: WebSocket) => {
       internal_container_id,
       status: 'running',
       image,
-      public_host: publicHostname,
+      public_host: publicHostName,
       proxy_host: 'localhost',
-      proxy_port: hostPort,
+      proxy_port: proxyPort,
       // command: string,
     })
   })
