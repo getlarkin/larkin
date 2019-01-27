@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 import * as AWS from 'aws-sdk'
 import { isProduction } from '@larkin/api/helpers/environ'
 import { getRandomString } from '@larkin/api/helpers/getRandomString'
@@ -24,7 +26,7 @@ export const createDomain = (): Promise<string> =>
 
     route53.changeResourceRecordSets(
       {
-        HostedZoneId: 'Z22DAOHZIONMU0',
+        HostedZoneId: process.env.AWS_ROUTE53_HOSTED_ZONE_ID as string,
         ChangeBatch: {
           Changes: [
             {
@@ -33,7 +35,7 @@ export const createDomain = (): Promise<string> =>
                 Name: domainName,
                 Type: 'A',
                 AliasTarget: {
-                  HostedZoneId: 'Z1Q0J5C9L8GZSH',
+                  HostedZoneId: process.env.AWS_ALIAS_HOSTED_ZONE_ID as string,
                   DNSName: 'dualstack.larkin-elb-1431217607.us-east-1.elb.amazonaws.com',
                   EvaluateTargetHealth: false,
                 },
@@ -51,3 +53,7 @@ export const createDomain = (): Promise<string> =>
       },
     )
   })
+
+createDomain().catch(err => {
+  throw err
+})
