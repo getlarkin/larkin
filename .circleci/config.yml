@@ -60,7 +60,7 @@ jobs:
           command: |
             cp .env ./packages/frontend/.env
             yarn build:frontend
-            yarn provision:setup
+            yarn setup:ansible
             ansible-playbook provision_real/site.yml --tags deploy --limit appservers,registryservers
             aws configure set preview.cloudfront true
             aws s3 sync --acl public-read ./packages/frontend/build/ s3://docker-run.com/
