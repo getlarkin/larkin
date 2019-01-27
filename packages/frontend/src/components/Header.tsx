@@ -69,10 +69,10 @@ export class Header extends React.Component {
       <Container>
         <HeaderLeft>
           <Link to="/">
-            <LogoImg src="https://docker-run.com/static/images/logo-mark.png" />
+            <LogoImg src="https://larkin.sh/static/images/logo-mark.png" />
           </Link>
           <ListItem>
-            <a href="https://github.com/acro5piano/docker-run.com" target="_blank">
+            <a href="https://github.com/getlarkin/larkin" target="_blank">
               GitHub
             </a>
           </ListItem>

@@ -6,14 +6,19 @@
     dest: /opt/larkin/releases/{{ ansible_date_time.iso8601_basic }}
     depth: 1
     accept_hostkey: True
+- name: copy env file
+  copy:
+    - src: .env
+    - dest: /opt/larkin/releases/{{ ansible_date_time.iso8601_basic }}/{{ item }}
+  with_items:
+    - .env
+    - packages/api/.env
 - name: commands
   command: "{{ item }}"
   args:
     chdir: /opt/larkin/releases/{{ ansible_date_time.iso8601_basic }}
   with_items:
     - yarn install
-    - cp .env.production packages/api/.env
-    - cp .env.production .env
     - yarn db:migrate
     # - yarn db:seed
 - name: link

@@ -63,5 +63,5 @@
   become: True
   systemd:
     name: docker
-    state: restarted
+    state: started
     enabled: True

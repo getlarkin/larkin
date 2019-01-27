@@ -47,14 +47,21 @@ jobs:
       - save_cache: *save_cache
       - run: *setup_awscli
       - run:
+          name: decrypt
+          command: |
+            openssl aes-256-cbc -a -d -k $MASTER_KEY -in .env.production.encrypted > .env
+      - run:
+          name: install deploy tools
+          command: |
+            sudo pip3 install ansible awscli
+      - run:
           name: deploy
           command: |
-            cp .env.production ./packages/frontend/.env
+            cp .env ./packages/frontend/.env
             yarn build:frontend
-            sudo pip3 install ansible awscli
             ansible-playbook provision/site.yml --tags deploy --limit appservers,registryservers
             aws configure set preview.cloudfront true
-            aws s3 sync --acl public-read ./packages/frontend/build/ s3://larkin.sh/
+            aws s3 sync --acl public-read ./packages/frontend/build/ s3://docker-run.com/
             aws cloudfront create-invalidation --distribution-id ERCZDB0NA4VCO --paths '/*'
 
 workflows:

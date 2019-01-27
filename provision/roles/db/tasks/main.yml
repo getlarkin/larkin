@@ -22,11 +22,17 @@
     src: pg_hba.conf
     dest: /var/lib/pgsql/data/pg_hba.conf
     owner: postgres
+- name: load postgresql
+  become: True
+  systemd:
+    name: postgresql
+    state: reloaded
+    enabled: True
 - name: enable postgresql
   become: True
   systemd:
     name: postgresql
-    state: restarted
+    state: started
     enabled: True
 - name: install required pip module
   become: True
