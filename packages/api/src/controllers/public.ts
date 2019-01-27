@@ -15,7 +15,7 @@ router.get('/get_docker_login', async (req, res) => {
   const password =
     getRandomStringLong() + getRandomStringLong() + getRandomStringLong() + getRandomStringLong()
 
-  await axios.post(`${process.env.REGISTY_API_URL}/register`, {
+  await axios.post(`${process.env.REGISTRY_API_URL}/register`, {
     user: api_token,
     password,
   })
