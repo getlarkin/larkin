@@ -66,7 +66,7 @@ export class Try extends React.Component<Props, State> {
 
     const ws = new WebSocket(process.env.WS_URL || '')
     ws.onmessage = ({ data }) => {
-      const dockerRunRegex = /http[s]?:\/\/[a-z|\d|.]*?docker\-run\.(com|local)(:5588)?/
+      const dockerRunRegex = /http[s]?:\/\/[a-z|\d|.]*?larkin\.(sh|local)(:5588)?/
       const matchUrl = data.match(dockerRunRegex)
       if (matchUrl) {
         this.setState({
