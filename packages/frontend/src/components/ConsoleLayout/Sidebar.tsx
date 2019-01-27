@@ -65,7 +65,7 @@ const logout = () => {
 export const Sidebar = ({ activeTab }: Props) => (
   <Container>
     <LogoContainer>
-      <Logo src="https://docker-run.com/static/images/logo-white.png" />
+      <Logo src="https://larkin.sh/static/images/logo-white.png" />
     </LogoContainer>
     <List>
       <Link to={CONTAINERS_PATH}>

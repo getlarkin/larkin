@@ -19,7 +19,7 @@ export const getContainerPort = (imageName: string) =>
 type HandleStdIo = (data: any) => void
 
 const replacePrivateRepositoryHost = (image: string) =>
-  image.replace('registry.docker-run.com', process.env.REGISTY_HOST as string)
+  image.replace('registry.larkin.sh', process.env.REGISTY_HOST as string)
 
 export const dockerPull = (image: string, handleStdIo: HandleStdIo) =>
   new Promise((resolve, reject) => {

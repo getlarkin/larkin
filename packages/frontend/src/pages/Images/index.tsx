@@ -93,8 +93,8 @@ export class Images extends React.Component<RouteComponentProps, State> {
     return (
       <ConsoleLayout activeTab="images">
         <Container>
-          <Title>docker-run.com registry</Title>
-          <div>You can push your Docker image to docker-run.com private registry.</div>
+          <Title>larkin.sh registry</Title>
+          <div>You can push your Docker image to larkin.sh private registry.</div>
           <Terminal>
             <Comment>
               # 1. Retrieve the login command to use to authenticate your Docker client to your
@@ -112,12 +112,12 @@ export class Images extends React.Component<RouteComponentProps, State> {
               # 3. After the build completes, tag your image so you can push the image to this
               repository:
             </Comment>
-            <p>docker tag myapp:latest registry.docker-run.com/{user.id}/myapp</p>
+            <p>docker tag myapp:latest registry.larkin.sh/{user.id}/myapp</p>
             <Comment>
-              # 4. Run the following command to push this image to your newly created docker-run.com
+              # 4. Run the following command to push this image to your newly created larkin.sh
               repository:
             </Comment>
-            <p>docker push registry.docker-run.com/{user.id}/myapp:latest</p>
+            <p>docker push registry.larkin.sh/{user.id}/myapp:latest</p>
           </Terminal>
         </Container>
       </ConsoleLayout>

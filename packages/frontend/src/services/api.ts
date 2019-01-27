@@ -7,7 +7,7 @@ export const subscribe = async (email: string) =>
     method: 'POST',
     body: JSON.stringify({
       channel: 'notifications',
-      text: `docker-run.com subscriber: ${email}`,
+      text: `larkin.sh subscriber: ${email}`,
     }),
   })
 

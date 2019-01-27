@@ -2,7 +2,7 @@
   "name": "@larkin/api",
   "version": "0.0.1",
   "private": true,
-  "repository": "git@github.com:acro5piano/docker-run.com-core",
+  "repository": "git@github.com:acro5piano/larkin.sh-core",
   "author": "gosho-kazuya <ketsume0211@gmail.com>",
   "license": "MIT",
   "scripts": {

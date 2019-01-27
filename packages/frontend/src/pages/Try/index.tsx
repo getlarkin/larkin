@@ -83,7 +83,7 @@ export class Try extends React.Component<Props, State> {
       if (matchExpired) {
         this.setState({
           expired: true,
-          status: 'Finished. Thank you for applying demo. please Subscribe docker-run.com!',
+          status: 'Finished. Thank you for applying demo. please Subscribe larkin.sh!',
         })
       }
       this.setState({ output: [...this.state.output, data] })

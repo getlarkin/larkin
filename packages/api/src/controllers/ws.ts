@@ -21,7 +21,7 @@ export const onConnection = (ws: WebSocket) => {
   const dockerLog = (message: string, newLine: boolean = false) => {
     logger.info(`[docker] ${message}`)
     try {
-      ws.send(`${newLine ? '\n' : ''}[docker-run.com] ${message}`)
+      ws.send(`${newLine ? '\n' : ''}[larkin.sh] ${message}`)
     } catch (e) {
       logger.info('websocket client is missing')
     }
@@ -34,8 +34,8 @@ export const onConnection = (ws: WebSocket) => {
   ws.on('message', async (image: string) => {
     const hostPort = await getPort()
 
-    dockerLog('====> STEP 1. Connecting to docker-run.com build server...')
-    dockerLog('Successfully connected to docker-run.com build server. Build started.')
+    dockerLog('====> STEP 1. Connecting to larkin.sh build server...')
+    dockerLog('Successfully connected to larkin.sh build server. Build started.')
 
     dockerLog('====> STEP 2. Registering your domain...', true)
     const publicHostname = await createDomain()
@@ -60,7 +60,7 @@ export const onConnection = (ws: WebSocket) => {
           'Killing docker container due to exceeding 600 seconds limit for demo instance.',
           true,
         )
-        dockerLog('Thank you for applying demo. please Subscribe docker-run.com!')
+        dockerLog('Thank you for applying demo. please Subscribe larkin.sh!')
         await Container.query()
           .update({ status: 'terminated' })
           .where({ internal_container_id })
