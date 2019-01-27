@@ -59,6 +59,7 @@ jobs:
           name: deploy
           command: |
             cp .env ./packages/frontend/.env
+            source .env
             yarn build:frontend
             yarn setup:ansible
             ansible-playbook provision_real/site.yml --tags deploy --limit appservers,registryservers
