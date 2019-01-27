@@ -3,7 +3,7 @@ import { isProduction } from '@larkin/api/helpers/environ'
 import { getRandomString } from '@larkin/api/helpers/getRandomString'
 
 const getDomainAliasName = (): string => {
-  return getRandomString() + '.docker-run.com'
+  return getRandomString() + '.larkin.sh'
 }
 
 export const createDomain = (): Promise<string> =>
@@ -33,7 +33,7 @@ export const createDomain = (): Promise<string> =>
                 Name: domainName,
                 Type: 'A',
                 AliasTarget: {
-                  HostedZoneId: 'Z35SXDOTRQ7X7K',
+                  HostedZoneId: 'Z1Q0J5C9L8GZSH',
                   DNSName: 'dualstack.drc-production-586017450.us-east-1.elb.amazonaws.com.',
                   EvaluateTargetHealth: false,
                 },
