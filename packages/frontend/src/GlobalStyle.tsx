@@ -41,4 +41,11 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1.6;
     font-size: 16px;
   }
+
+  code {
+    background: #eee;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: deeppink;
+  }
 `

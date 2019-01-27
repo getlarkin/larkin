@@ -1,8 +1,9 @@
 import * as React from 'react'
+import { TextField } from '@larkin/frontend/components/TextField'
 import styled from 'styled-components'
 import { ConsoleLayout } from '@larkin/frontend/components/ConsoleLayout'
 import { RouteComponentProps } from 'react-router'
-import { getContainers } from '@larkin/frontend/services/api'
+import { getContainers, updateDomainPublicHost } from '@larkin/frontend/services/api'
 import { Container } from '@larkin/frontend/entities/Container'
 import { Title } from '@larkin/frontend/components/Title'
 import { Button } from '@larkin/frontend/components/Button'
@@ -31,18 +32,33 @@ const Label = styled.div`
   width: 200px;
   color: #888;
 `
+
 const Value = styled.div`
   margin-left: 24px;
   color: #333;
 `
 
+const SmallButton = styled.div`
+  margin-left: 24px;
+  color: #5268a0;
+  border: solid 1px #a6b1cc;
+  border-radius: 4px;
+  padding: 5px 13px;
+  cursor: pointer;
+  display: inline-block;
+`
+
 interface State {
   containers: Container[]
+  newDomain: string
+  editingDomain: boolean
 }
 
 export class ContainerDetail extends React.Component<RouteComponentProps<{ id: string }>, State> {
   state = {
     containers: [] as Container[],
+    newDomain: '',
+    editingDomain: false,
   }
 
   async componentDidMount() {
@@ -52,6 +68,21 @@ export class ContainerDetail extends React.Component<RouteComponentProps<{ id: s
   fetch = async () => {
     const containers = (await getContainers()).data
     this.setState({ containers })
+  }
+
+  toEditDomain = () => {
+    this.setState({ editingDomain: true })
+  }
+
+  onChangeNewDomain = (e: any) => {
+    this.setState({ newDomain: e.target.value })
+  }
+
+  onSubmitNewDomain = async () => {
+    const { newDomain } = this.state
+    await updateDomainPublicHost(this.targetContainer.id, newDomain)
+    await this.fetch()
+    this.setState({ editingDomain: false })
   }
 
   get targetContainer() {
@@ -73,7 +104,8 @@ export class ContainerDetail extends React.Component<RouteComponentProps<{ id: s
   }
 
   render() {
-    if (this.state.containers.length === 0) {
+    const { containers, editingDomain, newDomain } = this.state
+    if (containers.length === 0) {
       return <ConsoleLayout activeTab="containers" />
     }
 
@@ -97,10 +129,21 @@ export class ContainerDetail extends React.Component<RouteComponentProps<{ id: s
                   this.targetContainer.public_host
                 }`}</a>
               </Value>
+              {editingDomain ? (
+                  <Value>
+                    https://<TextField value={newDomain} onChange={this.onChangeNewDomain} autoFocus />
+                    <SmallButton onClick={this.onSubmitNewDomain}>Done</SmallButton>
+                    <div>
+                      Note: You have to set your A record to <code>18.212.162.232</code>
+                    </div>
+                  </Value>
+              ) : (
+                <SmallButton onClick={this.toEditDomain}>Set custom domain</SmallButton>
+              )}
             </Row>
             <Row>
               <Label>Status</Label>
-              <Value>Running</Value>
+              <Value>{this.targetContainer.status}</Value>
             </Row>
             <Row>
               <Label>Created</Label>

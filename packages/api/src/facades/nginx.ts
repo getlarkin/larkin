@@ -3,14 +3,20 @@ import * as cp from 'child_process'
 import { isProduction } from '@larkin/api/helpers/environ'
 import { logStdout } from '@larkin/api/services/logger'
 
-export const createNewNginxConfig = (serverName: string, localPort: number) =>
+interface NginxConfig {
+  publicHostName: string
+  proxyPort: number
+  listenPort: number
+}
+
+export const createNewNginxConfig = (config: NginxConfig) =>
   new Promise(resolve => {
     const newConfig = `
       server {
-          server_name ${serverName};
-          listen 8080;
+          server_name ${config.publicHostName};
+          listen ${config.listenPort};
           location / {
-              proxy_pass http://localhost:${localPort};
+              proxy_pass http://localhost:${config.proxyPort};
               proxy_http_version 1.1;
               proxy_set_header Upgrade $http_upgrade;
               proxy_set_header Connection 'upgrade';
@@ -19,7 +25,7 @@ export const createNewNginxConfig = (serverName: string, localPort: number) =>
           }
       }
     `
-    const confDir = `${process.env.NGINX_CONF_FILE_DIR}/${serverName}.conf`
+    const confDir = `${process.env.NGINX_CONF_FILE_DIR}/${config.publicHostName}.conf`
     fs.writeFile(confDir, newConfig, 'utf8', err => {
       if (err) {
         console.error(err)
