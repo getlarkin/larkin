@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { GlobalStyle } from '@larkin/frontend/GlobalStyle'
-// import { DownAlert } from '@larkin/frontend/components/DownAlert'
+import { DownAlert } from '@larkin/frontend/components/DownAlert'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import { Routes } from '@larkin/frontend/Routes'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -39,6 +39,7 @@ export class App extends React.Component<{}> {
       <>
         <GlobalStyle />
         <CssBaseline />
+        <DownAlert />
         <MuiThemeProvider theme={mainTheme}>
           <BrowserRouter>
             <Routes />

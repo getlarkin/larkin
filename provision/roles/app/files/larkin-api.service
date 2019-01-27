@@ -1,10 +1,10 @@
 [Unit]
-Description=DockerRunRegistry
+Description=larkin
 After=network.target remote-fs.target
 
 [Service]
 WorkingDirectory=/opt/larkin/current
-ExecStart=/usr/local/bin/npm run start:registry
+ExecStart=/usr/local/bin/npm run start:api
 ExecStop=/bin/true
 Restart=always
 Type=simple

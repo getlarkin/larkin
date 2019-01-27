@@ -7,6 +7,6 @@
 - name: add to service
   become: True
   copy:
-    src: docker-run.service
-    dest: /etc/systemd/system/docker-run.service
+    src: larkin-api.service
+    dest: /etc/systemd/system/larkin-api.service
     mode: 0755

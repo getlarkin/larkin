@@ -47,11 +47,6 @@
     state: link
   with_items:
     - yarn
-- name: copy deploy key
-  copy:
-    src: deploy_key
-    dest: /home/ec2-user/.ssh/id_rsa
-    mode: 0600
 - name: add user to docker group
   become: True
   user:
@@ -65,3 +60,9 @@
     name: docker
     state: started
     enabled: True
+- name: add nginx conf dir
+  become: True
+  file:
+    path: /opt/larkin
+    state: directory
+    owner: ec2-user

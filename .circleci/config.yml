@@ -50,6 +50,7 @@ jobs:
           name: decrypt
           command: |
             openssl aes-256-cbc -a -d -k $MASTER_KEY -in .env.production.encrypted > .env
+            openssl aes-256-cbc -a -d -k $MASTER_KEY -in hosts.ini.encrypted > hosts.ini
       - run:
           name: install deploy tools
           command: |
@@ -58,8 +59,10 @@ jobs:
           name: deploy
           command: |
             cp .env ./packages/frontend/.env
+            source .env
             yarn build:frontend
-            ansible-playbook provision/site.yml --tags deploy --limit appservers,registryservers
+            yarn setup:ansible
+            ansible-playbook provision_real/site.yml --tags deploy --limit appservers,registryservers
             aws configure set preview.cloudfront true
             aws s3 sync --acl public-read ./packages/frontend/build/ s3://docker-run.com/
             aws cloudfront create-invalidation --distribution-id ERCZDB0NA4VCO --paths '/*'
@@ -76,3 +79,4 @@ workflows:
             branches:
               only:
                 - master
+                - easy-setup
