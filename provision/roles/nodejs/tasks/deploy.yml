@@ -8,8 +8,8 @@
     accept_hostkey: True
 - name: copy env file
   copy:
-    - src: .env
-    - dest: /opt/larkin/releases/{{ ansible_date_time.iso8601_basic }}/{{ item }}
+    src: .env
+    dest: /opt/larkin/releases/{{ ansible_date_time.iso8601_basic }}/{{ item }}
   with_items:
     - .env
     - packages/api/.env
