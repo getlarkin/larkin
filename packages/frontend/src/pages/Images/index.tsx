@@ -23,7 +23,7 @@ const Container = styled.div`
 
 const Comment = styled.p`
   color: #5590c9;
-margin-top: 18px;
+  margin-top: 18px;
 `
 
 // const TableContainer = styled.div`
@@ -97,19 +97,25 @@ export class Images extends React.Component<RouteComponentProps, State> {
           <div>You can push your Docker image to docker-run.com private registry.</div>
           <Terminal>
             <Comment>
-              # 1. Retrieve the login command to use to authenticate your Docker client to your registry. Use curl request:
+              # 1. Retrieve the login command to use to authenticate your Docker client to your
+              registry. Use curl request:
             </Comment>
-            <p>$(curl -H "X-TOKEN: {user.api_token}" https://api.docker-run.com/get_docker_login)</p>
+            <p>
+              $(curl -H "X-TOKEN: {user.api_token}" {process.env.API_URL}/get_docker_login)
+            </p>
             <Comment>
-              # 2. Build your Docker image using the following command. You can skip this step if your image is already built:
+              # 2. Build your Docker image using the following command. You can skip this step if
+              your image is already built:
             </Comment>
             <p>docker build -t myapp .</p>
             <Comment>
-              # 3. After the build completes, tag your image so you can push the image to this repository:
+              # 3. After the build completes, tag your image so you can push the image to this
+              repository:
             </Comment>
-						<p>docker tag myapp:latest registry.docker-run.com/{user.id}/myapp</p>
+            <p>docker tag myapp:latest registry.docker-run.com/{user.id}/myapp</p>
             <Comment>
-              # 4. Run the following command to push this image to your newly created docker-run.com repository:
+              # 4. Run the following command to push this image to your newly created docker-run.com
+              repository:
             </Comment>
             <p>docker push registry.docker-run.com/{user.id}/myapp:latest</p>
           </Terminal>

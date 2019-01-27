@@ -16,9 +16,8 @@ Status: Larkin is under development project.
 ```
 git clone git@github.com:getlarkin/larkin
 cd larkin
-cp .env.local .env
-cp .env.local ./packages/frontend/.env
-cp .env.local ./packages/api/.env
+cp .env ./packages/frontend/.env
+cp .env ./packages/api/.env
 yarn install
 yarn dev
 ```
