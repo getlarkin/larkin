@@ -7,14 +7,32 @@ interface NginxConfig {
   publicHostName: string
   proxyPort: number
   listenPort: number
+  ssl?: boolean
 }
 
 export const createNewNginxConfig = (config: NginxConfig) =>
   new Promise(resolve => {
+    const sslConfig = config.ssl
+      ? `
+          # SSL
+          ssl_certificate /etc/letsencrypt/live/${config.publicHostName}/fullchain.pem;
+          ssl_certificate_key /etc/letsencrypt/live/${config.publicHostName}/privkey.pem;
+
+          # Recommendations from https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
+          ssl_protocols TLSv1.1 TLSv1.2;
+          ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
+          ssl_prefer_server_ciphers on;
+          ssl_session_cache shared:SSL:10m;
+          `
+      : ''
+
     const newConfig = `
       server {
           server_name ${config.publicHostName};
           listen ${config.listenPort};
+
+          ${sslConfig}
+
           location / {
               proxy_pass http://localhost:${config.proxyPort};
               proxy_http_version 1.1;
@@ -55,7 +73,8 @@ export const runCertbot = (domain: string) => {
     const ps = cp.spawn('sudo', [
       'certbot',
       'certonly',
-      '--standalone',
+      // '--standalone',
+      '--nginx',
       '-d',
       domain,
       '--email',

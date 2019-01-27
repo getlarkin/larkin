@@ -78,7 +78,12 @@ router.put('/:id/public_host', withContainer, async (req, res) => {
   const { container } = req.params
   const publicHostName = req.body.public_host
 
-  await createNewNginxConfig({ publicHostName, proxyPort: container.proxy_port, listenPort: 80 })
+  await createNewNginxConfig({
+    publicHostName,
+    proxyPort: container.proxy_port,
+    listenPort: 80,
+    ssl: true,
+  })
   await restartNginx()
   await Container.query()
     .update({
