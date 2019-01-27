@@ -65,6 +65,6 @@
 - name: add to service
   become: True
   copy:
-    src: docker-run-registry.service
+    src: larkin-registry.service
     dest: /etc/systemd/system/docker-run-registry.service
     mode: 0755

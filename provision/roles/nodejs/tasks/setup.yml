@@ -47,11 +47,6 @@
     state: link
   with_items:
     - yarn
-- name: copy deploy key
-  copy:
-    src: deploy_key
-    dest: /home/ec2-user/.ssh/id_rsa
-    mode: 0600
 - name: add user to docker group
   become: True
   user:

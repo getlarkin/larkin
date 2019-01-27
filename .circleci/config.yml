@@ -60,7 +60,8 @@ jobs:
           command: |
             cp .env ./packages/frontend/.env
             yarn build:frontend
-            ansible-playbook provision/site.yml --tags deploy --limit appservers,registryservers
+            yarn provision:setup
+            ansible-playbook provision_real/site.yml --tags deploy --limit appservers,registryservers
             aws configure set preview.cloudfront true
             aws s3 sync --acl public-read ./packages/frontend/build/ s3://docker-run.com/
             aws cloudfront create-invalidation --distribution-id ERCZDB0NA4VCO --paths '/*'
@@ -77,3 +78,4 @@ workflows:
             branches:
               only:
                 - master
+                - easy-setup

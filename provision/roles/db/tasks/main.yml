@@ -53,7 +53,7 @@
   postgresql_user:
     db: larkin_production
     name: larkin_admin
-    password: gvkx1mj8dzk6szct2ly89pke05zcynjxt1blp3hfjl8rvzxvddxilm7sfemr6u47fsqj2v9eyx
+    password: "{{ lookup('env','PG_PASSWORD') }}"
     priv: "CONNECT/ALL"
     expires: infinity
     encrypted: yes

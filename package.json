@@ -25,7 +25,8 @@
     "start:api:dev": "cross-env NODE_ENV=development yarn workspace @larkin/api start",
     "start:registry:dev": "cross-env NODE_ENV=development yarn workspace @larkin/registry start",
     "start:api": "cross-env NODE_ENV=production yarn workspace @larkin/api start",
-    "start:registry": "cross-env NODE_ENV=production yarn workspace @larkin/registry start"
+    "start:registry": "cross-env NODE_ENV=production yarn workspace @larkin/registry start",
+    "setup:ansible": "node scripts/setup-ansible.js"
   },
   "dependencies": {
     "@types/node": "^10.12.18",
@@ -34,6 +35,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.12",
     "cross-env": "^5.2.0",
+    "ejs": "^2.6.1",
     "jest": "^23.6.0",
     "nodemon": "^1.18.9",
     "npm-run-all": "^4.1.5",
