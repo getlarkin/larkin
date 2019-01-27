@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Hidden } from '@larkin/frontend/components/Hidden'
 import { TextField } from '@larkin/frontend/components/TextField'
 import styled from 'styled-components'
 import { ConsoleLayout } from '@larkin/frontend/components/ConsoleLayout'
@@ -129,6 +130,7 @@ export class ContainerDetail extends React.Component<RouteComponentProps<{ id: s
                   this.targetContainer.public_host
                 }`}</a>
               </Value>
+              <Hidden>
               {editingDomain ? (
                   <Value>
                     https://<TextField value={newDomain} onChange={this.onChangeNewDomain} autoFocus />
@@ -140,6 +142,7 @@ export class ContainerDetail extends React.Component<RouteComponentProps<{ id: s
               ) : (
                 <SmallButton onClick={this.toEditDomain}>Set custom domain</SmallButton>
               )}
+            </Hidden>
             </Row>
             <Row>
               <Label>Status</Label>
