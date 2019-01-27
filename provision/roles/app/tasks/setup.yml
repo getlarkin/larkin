@@ -1,3 +1,25 @@
+- name: download epel
+  become: True
+  get_url:
+    url: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    dest: /tmp/epel.rpm
+    mode: 0666
+- name: install epel
+  become: True
+  shell: yum -y install /tmp/epel.rpm; true
+- name: yum
+  become: True
+  yum:
+    enablerepo: epel
+    name: "{{ item }}"
+    state: present
+    update_cache: True
+  with_items:
+    - docker
+    - nginx
+    - python2-certbot-nginx
+    - httpd-tools
+
 - name: insecure repo
   become: True
   copy:
