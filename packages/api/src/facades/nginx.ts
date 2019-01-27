@@ -84,6 +84,7 @@ export const runCertbot = (domain: string) => {
       '--non-interactive',
     ])
     ps.stdout.on('data', logStdout)
+    ps.stderr.on('data', logStdout)
     ps.on('exit', resolve)
   })
 }
