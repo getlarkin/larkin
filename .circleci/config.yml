@@ -35,8 +35,6 @@ jobs:
       - run:
           name: check ts
           command: |
-            cp .env.local ./packages/frontend/.env
-            cp .env.local ./packages/api/.env
             yarn tsc
   deploy:
     <<: *defaults
