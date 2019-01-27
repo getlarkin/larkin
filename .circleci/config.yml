@@ -47,8 +47,8 @@ jobs:
       - run:
           name: decrypt
           command: |
-            openssl aes-256-cbc -a -d -k $MASTER_KEY -in .env.production.encrypted > .env
-            openssl aes-256-cbc -a -d -k $MASTER_KEY -in hosts.ini.encrypted > hosts.ini
+            openssl aes-256-cbc -a -d -k $MASTER_KEY -in private/.env.production.encrypted > .env
+            openssl aes-256-cbc -a -d -k $MASTER_KEY -in private/hosts.ini.encrypted > hosts.ini
       - run:
           name: install deploy tools
           command: |
