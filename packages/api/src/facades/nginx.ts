@@ -73,7 +73,7 @@ export const runCertbot = (domain: string) => {
     const ps = cp.spawn('sudo', [
       'certbot',
       'certonly',
-      '--standalone',
+      '--nginx',
       '-d',
       domain,
       '--email',

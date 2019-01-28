@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Checkbox from '@material-ui/core/Checkbox'
 import { TextField } from '@larkin/frontend/components/TextField'
 import styled from 'styled-components'
 import { ConsoleLayout } from '@larkin/frontend/components/ConsoleLayout'
@@ -48,10 +49,15 @@ const SmallButton = styled.div`
   display: inline-block;
 `
 
+const SslNote = styled.div`
+  display: flex;
+`
+
 interface State {
   containers: Container[]
   newDomain: string
   editingDomain: boolean
+  useSsl: boolean
 }
 
 export class ContainerDetail extends React.Component<RouteComponentProps<{ id: string }>, State> {
@@ -59,6 +65,7 @@ export class ContainerDetail extends React.Component<RouteComponentProps<{ id: s
     containers: [] as Container[],
     newDomain: '',
     editingDomain: false,
+    useSsl: true,
   }
 
   async componentDidMount() {
@@ -79,8 +86,8 @@ export class ContainerDetail extends React.Component<RouteComponentProps<{ id: s
   }
 
   onSubmitNewDomain = async () => {
-    const { newDomain } = this.state
-    await updateDomainPublicHost(this.targetContainer.id, newDomain)
+    const { newDomain, useSsl } = this.state
+    await updateDomainPublicHost(this.targetContainer.id, newDomain, useSsl)
     await this.fetch()
     this.setState({ editingDomain: false })
   }
@@ -104,7 +111,7 @@ export class ContainerDetail extends React.Component<RouteComponentProps<{ id: s
   }
 
   render() {
-    const { containers, editingDomain, newDomain } = this.state
+    const { containers, editingDomain, newDomain, useSsl } = this.state
     if (containers.length === 0) {
       return <ConsoleLayout activeTab="containers" />
     }
@@ -133,6 +140,10 @@ export class ContainerDetail extends React.Component<RouteComponentProps<{ id: s
                   <Value>
                     https://<TextField value={newDomain} onChange={this.onChangeNewDomain} autoFocus />
                     <SmallButton onClick={this.onSubmitNewDomain}>Done</SmallButton>
+                    <SslNote>
+                      <Checkbox checked={useSsl} onChange={() => this.setState({ useSsl: !useSsl })} color="primary" />
+                      Use SSL to make standalone https connection. If you use CDN like Cloudflare, please check off.
+                    </SslNote>
                     <div>
                       Note: You have to set your A record to <code>18.212.162.232</code>
                     </div>

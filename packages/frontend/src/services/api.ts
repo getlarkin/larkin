@@ -32,5 +32,5 @@ export const launchContainer = (image: string) => client.post('/containers', { i
 
 export const destroyContainer = (id: string) => client.delete(`/containers/${id}`)
 
-export const updateDomainPublicHost = (id: string, public_host: string) =>
-  client.put(`/containers/${id}/public_host`, { public_host })
+export const updateDomainPublicHost = (id: string, public_host: string, ssl: boolean) =>
+  client.put(`/containers/${id}/public_host`, { public_host, ssl })

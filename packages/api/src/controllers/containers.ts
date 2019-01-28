@@ -77,17 +77,19 @@ router.delete('/:id', requireAuth, withContainer, async (req, res) => {
 router.put('/:id/public_host', withContainer, async (req, res) => {
   const { container } = req.params
   const publicHostName = req.body.public_host
+  const { ssl } = req.body
 
   try {
     await runCertbot(publicHostName)
   } catch (e) {
-    throw e
+    res.status(422).send('could not get ssl certs.')
+    return
   }
   await createNewNginxConfig({
     publicHostName,
     proxyPort: container.proxy_port,
-    listenPort: 443,
-    ssl: true,
+    listenPort: ssl ? 443 : 80,
+    ssl,
   })
   await restartNginx()
   await Container.query()
