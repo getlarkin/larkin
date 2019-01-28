@@ -4,8 +4,6 @@ Simple Docker container management, including automatic reverse proxy, private r
 
 ![image](https://github.com/acro5piano/docker-run.com/blob/master/demo.gif)
 
-https://www.buymeacoffee.com/geTuXnB
-
 # Project status
 
 Currently Larkin is alpha. We will launch beta version by April 2019, so please watch us.
@@ -58,8 +56,6 @@ Note: The following features will not currently work in locally:
 - Route53 host management
 - Docker registry server
 
-# TODO
+# Support
 
-- Set env vars
-- Ansible Vault
-- Ansilbe Template
+https://www.buymeacoffee.com/geTuXnB
