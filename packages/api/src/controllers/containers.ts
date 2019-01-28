@@ -78,7 +78,11 @@ router.put('/:id/public_host', withContainer, async (req, res) => {
   const { container } = req.params
   const publicHostName = req.body.public_host
 
-  await runCertbot(publicHostName)
+  try {
+    await runCertbot(publicHostName)
+  } catch (e) {
+    throw e
+  }
   await createNewNginxConfig({
     publicHostName,
     proxyPort: container.proxy_port,

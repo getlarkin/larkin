@@ -69,7 +69,7 @@ export const runCertbot = (domain: string) => {
     return Promise.resolve()
   }
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const ps = cp.spawn('sudo', [
       'certbot',
       'certonly',
@@ -84,6 +84,12 @@ export const runCertbot = (domain: string) => {
     ])
     ps.stdout.on('data', logStdout)
     ps.stderr.on('data', logStdout)
-    ps.on('exit', resolve)
+    ps.on('close', code => {
+      if (code !== 0) {
+        reject(code)
+      } else {
+        resolve()
+      }
+    })
   })
 }
