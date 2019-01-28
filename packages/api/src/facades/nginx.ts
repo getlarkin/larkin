@@ -29,7 +29,7 @@ export const createNewNginxConfig = (config: NginxConfig) =>
     const newConfig = `
       server {
           server_name ${config.publicHostName};
-          listen ${config.listenPort};
+          listen ${config.listenPort}${config.ssl ? ' ssl' : ''};
 
           ${sslConfig}
 
@@ -73,8 +73,7 @@ export const runCertbot = (domain: string) => {
     const ps = cp.spawn('sudo', [
       'certbot',
       'certonly',
-      // '--standalone',
-      '--nginx',
+      '--standalone',
       '-d',
       domain,
       '--email',
