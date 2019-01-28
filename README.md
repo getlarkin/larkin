@@ -2,11 +2,13 @@
 
 Simple Docker container management, including automatic reverse proxy, private registry, host management, and more.
 
+![image](https://github.com/acro5piano/docker-run.com/blob/master/demo.gif)
+
+https://www.buymeacoffee.com/geTuXnB
+
 # Project status
 
 Currently Larkin is alpha. We will launch beta version by April 2019, so please watch us.
-
-![image](https://github.com/acro5piano/docker-run.com/blob/master/demo.gif)
 
 # Why
 

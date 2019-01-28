@@ -23,8 +23,8 @@ passport.use(
       if (!user) {
         user = await User.query().insert({
           name: profile.username,
-          email: profile.emails[0].value,
-          avatar_url: profile.photos[0].value,
+          email: profile.emails ? profile.emails[0].value : 'github_user@example.com',
+          avatar_url: profile.photos ? profile.photos[0].value : '',
           github_id: profile.id,
           github_url: profile.profileUrl,
           github_access_token: accessToken,
