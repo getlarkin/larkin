@@ -88,7 +88,7 @@ export class Images extends React.Component<RouteComponentProps, State> {
       return <ConsoleLayout activeTab="images" />
     }
 
-    const user: User = me
+    const user: User = me!
 
     return (
       <ConsoleLayout activeTab="images">
