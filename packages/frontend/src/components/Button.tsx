@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 
-type ButtonType = 'primary' | 'default' | 'danger'
+type ButtonVariant = 'primary' | 'default' | 'danger'
 
 interface Props {
-  type?: ButtonType
+  variant?: ButtonVariant
   fullWidth?: boolean
 }
 
-function getButtonColor(type: ButtonType = 'primary') {
-  switch (type) {
+function getButtonColor(variant: ButtonVariant = 'primary') {
+  switch (variant) {
     case 'default':
       return '#888'
     case 'primary':
@@ -18,8 +18,8 @@ function getButtonColor(type: ButtonType = 'primary') {
   }
 }
 
-function getButtonBGColor(type: ButtonType = 'primary') {
-  switch (type) {
+function getButtonBGColor(variant: ButtonVariant = 'primary') {
+  switch (variant) {
     case 'primary':
       return '#707ded'
     case 'danger':
@@ -36,8 +36,8 @@ export const Button = styled.button<Props>`
   cursor: pointer;
   font-size: 14px;
   border: none;
-  background: ${props => getButtonBGColor(props.type)};
-  color: ${props => getButtonColor(props.type)};
+  background: ${props => getButtonBGColor(props.variant)};
+  color: ${props => getButtonColor(props.variant)};
   max-width: ${props => (props.fullWidth ? '100%' : '200px')};
   display: ${props => (props.fullWidth ? 'inline-block' : 'inline')};
   &[disabled] {

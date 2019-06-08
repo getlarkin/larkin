@@ -132,22 +132,29 @@ export class ContainerDetail extends React.Component<RouteComponentProps<{ id: s
             <Row>
               <Label>Endpoint</Label>
               <Value>
-                <a href={`https://${this.targetContainer.public_host}`} target="_blank">{`https://${
-                  this.targetContainer.public_host
-                }`}</a>
+                <a
+                  href={`https://${this.targetContainer.public_host}`}
+                  target="_blank"
+                >{`https://${this.targetContainer.public_host}`}</a>
               </Value>
               {editingDomain ? (
-                  <Value>
-                    https://<TextField value={newDomain} onChange={this.onChangeNewDomain} autoFocus />
-                    <SmallButton onClick={this.onSubmitNewDomain}>Done</SmallButton>
-                    <SslNote>
-                      <Checkbox checked={useSsl} onChange={() => this.setState({ useSsl: !useSsl })} color="primary" />
-                      Use SSL to make standalone https connection. If you use CDN like Cloudflare, please check off.
-                    </SslNote>
-                    <div>
-                      Note: You have to set your A record to <code>18.212.162.232</code>
-                    </div>
-                  </Value>
+                <Value>
+                  https://
+                  <TextField value={newDomain} onChange={this.onChangeNewDomain} autoFocus />
+                  <SmallButton onClick={this.onSubmitNewDomain}>Done</SmallButton>
+                  <SslNote>
+                    <Checkbox
+                      checked={useSsl}
+                      onChange={() => this.setState({ useSsl: !useSsl })}
+                      color="primary"
+                    />
+                    Use SSL to make standalone https connection. If you use CDN like Cloudflare,
+                    please check off.
+                  </SslNote>
+                  <div>
+                    Note: You have to set your A record to <code>18.212.162.232</code>
+                  </div>
+                </Value>
               ) : (
                 <SmallButton onClick={this.toEditDomain}>Set custom domain</SmallButton>
               )}
@@ -166,7 +173,7 @@ export class ContainerDetail extends React.Component<RouteComponentProps<{ id: s
           <Section>
             <Row>
               <Label>
-                <Button type="danger" onClick={this.deleteContainer}>
+                <Button variant="danger" onClick={this.deleteContainer}>
                   Delete Container
                 </Button>
               </Label>
