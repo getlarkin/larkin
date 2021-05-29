@@ -40,7 +40,7 @@
     "tsconfig-paths": "^3.7.0",
     "uuid": "^3.3.2",
     "winston": "^3.1.0",
-    "ws": "^6.1.2"
+    "ws": "^7.4.6"
   },
   "devDependencies": {}
 }
