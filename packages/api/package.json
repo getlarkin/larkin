@@ -28,7 +28,7 @@
     "express": "^4.16.4",
     "express-winston": "^3.0.1",
     "get-port": "^4.1.0",
-    "jsonwebtoken": "^8.4.0",
+    "jsonwebtoken": "^9.0.0",
     "knex": "^0.20.1",
     "knex-tiny-logger": "^1.1.0",
     "objection": "^1.4.0",
